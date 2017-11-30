@@ -5,35 +5,44 @@
     <title>My Panel</title>
     <script src="script/jquery.js"></script>
     <script src="Panel.js"></script>
+    <style>
+        .net-table {
+            width: 100%;
+        }
+        .net-table th, .net-table td {
+            border:1px solid black;
+        }
+        .net-table tr {
+            background-color: white;
+        }
+        .net-table tr:hover {
+            background-color:lightgray;
+        }
+        #left-panel {
+            width:50%;
+
+        }
+        #display-panel {
+            width: 100%;
+        }
+
+    </style>
 </head>
 <body>
-<style>
-    .net-table {
-        width: 100%;
-    }
-    .net-table tr {
-        background-color: white;
-        border:1px solid black;
-    }
-    .net-table tr:hover {
-        background-color:lightgray;
-    }
-    #left-panel {
-        width:50%;
 
-    }
-    #display-panel {
-        width: 100%;
-    }
-
-</style>
 <div id="left-panel" >
+    <label for="chk-ajax"><input type="checkbox" id="chk-ajax" checked> Only Ajax</label>
+    <label for="chk-html"><input type="checkbox" id="chk-html"> Only HTML</label>
+    <label for="chk-full-url"><input type="checkbox" id="chk-full-url"> Show Full URLs</label>
     <table class="net-table">
+        <thead>
         <tr>
             <th>Source</th> <!--- request.request.url --->
             <th>Type</th> <!--- request.response.content.mimetype --->
             <th>Status</th> <!--- request.response.status --->
         </tr>
+        </thead>
+        <tbody></tbody>
     </table>
 </div>
 <div id="display-panel">
