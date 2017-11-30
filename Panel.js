@@ -7,6 +7,8 @@ var filters = {
     fullURLs: false
 };
 
+var selectedIdx = null;
+
 $(function () {
 
 
@@ -20,14 +22,27 @@ $(function () {
         }
     );
 
+    chrome.devtools.network.onNavigated.addListener(
+        function () {
+            $('#display-panel').empty();
+            $('.display-style').remove();
+            allRequests = [];
+            filteredRequests = [];
+            filterChanged();
+        }
+    );
+
     $('.net-table').on('click', "tr", null, function () {
         var idx = parseInt($(this).data('idx'));
         var req = filteredRequests[idx];
         var panel = $('#display-panel');
+        $(this).parent().find('.selected').removeClass('selected');
+        $(this).addClass('selected');
+        selectedIdx = idx;
         req.getContent(function (content, encoding) {
             panel.empty();
             panel.append(content);
-            $('.display-style').remove();
+
             $.each($(panel).find('style'), function () {
                 $('head').append('<style class="display-style">' + this.innerHTML + '</style>');
                 this.remove();
@@ -47,17 +62,22 @@ $(function () {
 
     $('#chk-full-url').change(function() {
         filters.fullURLs = this.checked;
-        filterChanged();
+        reloadTable();
     });
 });
 
 function filterChanged() {
-    var tbod = $('.net-table tbody');
-    tbod.find('tr').remove();
     filteredRequests = [];
+    selectedIdx = null;
     for (var i = 0; i < allRequests.length; i++) {
         if (matchesFilters(allRequests[i])) filteredRequests.push(allRequests[i]);
     }
+    reloadTable();
+}
+
+function reloadTable() {
+    var tbod = $('.net-table tbody');
+    tbod.find('tr').remove();
     for (var i = 0; i < filteredRequests.length; i++) {
         appendRequest(i);
     }
@@ -92,5 +112,5 @@ function appendRequest(idx) {
         url = url.substr(0, 100) + (url.length > 100 ? '...' : '');
         urlSeg = urlSeg.substr(0, 100) + (urlSeg.length > 100 ? '...' : '');
     }
-    tBody.append('<tr data-idx="' + idx + '"><td>'+urlSeg+'<br><span style="color:gray;">'+url+'</span></td><td>'+req.response.content.mimeType+'</td><td>'+req.response.status+'</td></tr>')
+    tBody.append('<tr class="'+(idx===selectedIdx?'selected':'')+'" data-idx="' + idx + '"><td>'+urlSeg+'<br><span style="color:gray;">'+url+'</span></td><td>'+req.response.content.mimeType+'</td><td>'+req.response.status+'</td></tr>')
 }
