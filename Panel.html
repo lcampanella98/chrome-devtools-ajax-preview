@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Panel</title>
+    <script src="script/jquery.js"></script>
+    <script src="Panel.js"></script>
+</head>
+<body>
+<style>
+    .net-table {
+        width: 100%;
+    }
+    .net-table tr {
+        background-color: white;
+        border:1px solid black;
+    }
+    .net-table tr:hover {
+        background-color:lightgray;
+    }
+    #left-panel {
+        width:50%;
+
+    }
+    #display-panel {
+        width: 100%;
+    }
+
+</style>
+<div id="left-panel" >
+    <table class="net-table">
+        <tr>
+            <th>Source</th> <!--- request.request.url --->
+            <th>Type</th> <!--- request.response.content.mimetype --->
+            <th>Status</th> <!--- request.response.status --->
+        </tr>
+    </table>
+</div>
+<div id="display-panel">
+</div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "Chrome DevTools Ajax Preview",
+  "version": "1.0",
+  "description": "Fix DevTools Ajax Preview Issue",
+  "background": {
+  "scripts": ["background.js"]
+  },
+  "devtools_page": "devtools.html",
+  "manifest_version": 2,
+  "permissions": [
+    "background"
+  ]
+
+}
